@@ -16,10 +16,10 @@ namespace fans
 
   public class FA1
   {
-public static State a = new State()
+    public static State a = new State()
         {
             Name = "a",
-            IsAcceptState = false,
+            IsAcceptState = true,
             Transitions = new Dictionary<char, State>()
         };
         public State b = new State()
@@ -34,22 +34,24 @@ public static State a = new State()
             IsAcceptState = false,
             Transitions = new Dictionary<char, State>()
         };
-      public static State d = new State()
+        public State d = new State()
         {
             Name = "d",
-            IsAcceptState = true,
+            IsAcceptState = false,
             Transitions = new Dictionary<char, State>()
         };
-
         State InitialState = a;
-        
-        public FA()
+
+        public FA2()
         {
-           a.Transitions['0'] = c;
-           a.Transitions['1'] = b;
-           b.Transitions['0'] = d;
-           b.Transitions['1'] = b;
-           c.Transitions['1'] = d;           
+            a.Transitions['0'] = b;
+            a.Transitions['1'] = c;
+            b.Transitions['0'] = a;
+            b.Transitions['1'] = d;
+            c.Transitions['0'] = d;
+            c.Transitions['1'] = a;
+            d.Transitions['0'] = c;
+            d.Transitions['1'] = b;
         }
         
         public bool? Run(IEnumerable<char> s)

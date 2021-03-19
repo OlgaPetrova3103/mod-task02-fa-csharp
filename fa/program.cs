@@ -16,18 +16,117 @@ namespace fans
 
   public class FA1
   {
-    public bool? Run(IEnumerable<char> s)
-    {
-      return false;
+public static State a = new State()
+        {
+            Name = "a",
+            IsAcceptState = false,
+            Transitions = new Dictionary<char, State>()
+        };
+        public State b = new State()
+        {
+            Name = "b",
+            IsAcceptState = false,
+            Transitions = new Dictionary<char, State>()
+        };
+        public State c = new State()
+        {
+            Name = "c",
+            IsAcceptState = false,
+            Transitions = new Dictionary<char, State>()
+        };
+      public static State d = new State()
+        {
+            Name = "d",
+            IsAcceptState = true,
+            Transitions = new Dictionary<char, State>()
+        };
+
+        State InitialState = a;
+        
+        public FA()
+        {
+           a.Transitions['0'] = c;
+           a.Transitions['1'] = b;
+           b.Transitions['0'] = d;
+           b.Transitions['1'] = b;
+           c.Transitions['1'] = d;           
+        }
+        
+        public bool? Run(IEnumerable<char> s)
+        {
+            State current = InitialState;
+            foreach (var d in s) // цикл по всем символам 
+            {
+                current = current.Transitions[d]; // меняем состояние на то, в которое у нас переход
+                if (current == null)              // если его нет, возвращаем признак ошибки
+                    return null;
+                // иначе переходим к следующему
+            }
+            return current.IsAcceptState;         // результат true если в конце финальное состояние 
+        }
     }
-  }
 
   public class FA2
   {
-    public bool? Run(IEnumerable<char> s)
-    {
-      return false;
-    }
+public static State a = new State()
+        {
+            Name = "a",
+            IsAcceptState = true,
+            Transitions = new Dictionary<char, State>()
+        };
+        public State b = new State()
+        {
+            Name = "b",
+            IsAcceptState = false,
+            Transitions = new Dictionary<char, State>()
+        };
+        public State c = new State()
+        {
+            Name = "c",
+            IsAcceptState = false,
+            Transitions = new Dictionary<char, State>()
+        };
+    public static State d = new State()
+            {
+            Name = "d",
+            IsAcceptState = false,
+            Transitions = new Dictionary<char, State>()
+        };
+      public static State e = new State()
+        {
+            Name = "e",
+            IsAcceptState = false,
+            Transitions = new Dictionary<char, State>()
+        };
+
+        State InitialState = a;
+        
+        public FA()
+        {
+           a.Transitions['0'] = b;
+           a.Transitions['1'] = c;
+           b.Transitions['0'] = a;
+           b.Transitions['1'] = d;
+           c.Transitions['0'] = e;
+          c.Transitions['1'] = a;
+          d.Transitions['0'] = c;
+          d.Transitions['1'] = b;
+          e.Transitions['0'] = c;
+          e.Transitions['1'] = b; 
+        }
+        
+        public bool? Run(IEnumerable<char> s)
+        {
+            State current = InitialState;
+            foreach (var a in s) // цикл по всем символам 
+            {
+                current = current.Transitions[a]; // меняем состояние на то, в которое у нас переход
+                if (current == null)              // если его нет, возвращаем признак ошибки
+                    return null;
+                // иначе переходим к следующему
+            }
+            return current.IsAcceptState;         // результат true если в конце финальное состояние 
+        }
   }
 
   class Program

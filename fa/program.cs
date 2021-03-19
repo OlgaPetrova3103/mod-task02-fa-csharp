@@ -19,7 +19,7 @@ namespace fans
     public static State a = new State()
         {
             Name = "a",
-            IsAcceptState = true,
+            IsAcceptState = false,
             Transitions = new Dictionary<char, State>()
         };
         public State b = new State()
@@ -31,7 +31,7 @@ namespace fans
         public State c = new State()
         {
             Name = "c",
-            IsAcceptState = false,
+            IsAcceptState = true,
             Transitions = new Dictionary<char, State>()
         };
         public State d = new State()
@@ -40,31 +40,39 @@ namespace fans
             IsAcceptState = false,
             Transitions = new Dictionary<char, State>()
         };
+        public State e = new State()
+        {
+            Name = "e",
+            IsAcceptState = false,
+            Transitions = new Dictionary<char, State>()
+        };
         State InitialState = a;
 
-        public FA2()
+        public FA1()
         {
-            a.Transitions['0'] = b;
-            a.Transitions['1'] = c;
-            b.Transitions['0'] = a;
-            b.Transitions['1'] = d;
-            c.Transitions['0'] = d;
-            c.Transitions['1'] = a;
-            d.Transitions['0'] = c;
-            d.Transitions['1'] = b;
+            a.Transitions['0'] = d;
+            a.Transitions['1'] = e;
+            b.Transitions['0'] = b;
+            b.Transitions['1'] = b;
+            c.Transitions['0'] = b;
+            c.Transitions['1'] = c;
+            d.Transitions['0'] = b;
+            d.Transitions['1'] = c;
+            e.Transitions['0'] = c;
+            e.Transitions['1'] = e;
         }
-        
+
         public bool? Run(IEnumerable<char> s)
         {
             State current = InitialState;
-            foreach (var d in s) // цикл по всем символам 
+            foreach (var c in s)
             {
-                current = current.Transitions[d]; // меняем состояние на то, в которое у нас переход
-                if (current == null)              // если его нет, возвращаем признак ошибки
+                current = current.Transitions[c];
+                if (current == null)             
                     return null;
-                // иначе переходим к следующему
+                
             }
-            return current.IsAcceptState;         // результат true если в конце финальное состояние 
+            return current.IsAcceptState;      
         }
     }
 
@@ -103,7 +111,7 @@ public static State a = new State()
 
         State InitialState = a;
         
-        public FA()
+        public FA2()
         {
            a.Transitions['0'] = b;
            a.Transitions['1'] = c;
@@ -120,9 +128,9 @@ public static State a = new State()
         public bool? Run(IEnumerable<char> s)
         {
             State current = InitialState;
-            foreach (var a in s) // цикл по всем символам 
+            foreach (var c in s) // цикл по всем символам 
             {
-                current = current.Transitions[a]; // меняем состояние на то, в которое у нас переход
+                current = current.Transitions[c]; // меняем состояние на то, в которое у нас переход
                 if (current == null)              // если его нет, возвращаем признак ошибки
                     return null;
                 // иначе переходим к следующему
